@@ -2,6 +2,8 @@ const express = require('express');
 
 const app = express();
 
+app.use(express.json());
+
 const teams = [
   {
     id: 1,
@@ -18,5 +20,28 @@ const teams = [
 app.get('/', (req, res) => res.status(200).json({ message: 'Olá Mundo!' }));
 
 app.get('/teams', (req, res) => res.status(200).json({teams}));
+
+app.post('/teams', (req, res) => {
+  console.log({...req.body});
+  const newTeam = { ...req.body };
+  teams.push(newTeam);
+
+  res.status(201).json({ team: newTeam });
+});
+
+app.put('/teams/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, initials } = req.body;
+
+  const updateTeam = teams.find((team) => team.id === Number(id));
+
+  if(!updateTeam) {
+    res.status(404).json({message: 'Team not found'});
+  }
+
+  updateTeam.name = name;
+  updateTeam.initials = initials;
+  res.status(200).json({ updateTeam });
+});
 
 module.exports = app;
