@@ -13,24 +13,22 @@ const teams = [
   {
     id: 2,
     name: 'Clube Atlético Mineiro',
-    initials: 'CAM'
-  }
+    initials: 'CAM',
+  },
 ];
 
 app.get('/', (req, res) => res.status(200).json({ message: 'Olá Mundo!' }));
 
-app.get('/teams', (req, res) => res.status(200).json({teams}));
+app.get('/teams', (req, res) => res.status(200).json({ teams }));
 
 app.get('/teams/:id', (req, res) => {
-
   const { id } = req.params;
   const teamById = teams.find((team) => team.id === Number(id));
-
-  res.status(200).json({teamById});
+  res.status(200).json({ teamById });
 });
 
 app.post('/teams', (req, res) => {
-  console.log({...req.body});
+  console.log({ ...req.body });
   const newTeam = { ...req.body };
   teams.push(newTeam);
 
@@ -43,8 +41,8 @@ app.put('/teams/:id', (req, res) => {
 
   const updateTeam = teams.find((team) => team.id === Number(id));
 
-  if(!updateTeam) {
-    res.status(404).json({message: 'Team not found'});
+  if (!updateTeam) {
+    res.status(404).json({ message: 'Team not found' });
   }
 
   updateTeam.name = name;
@@ -53,7 +51,7 @@ app.put('/teams/:id', (req, res) => {
 });
 
 app.delete('/teams/:id', (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const arrayPosition = teams.findIndex((team) => team.id === Number(id));
   teams.splice(arrayPosition, 1);
 
