@@ -21,6 +21,14 @@ app.get('/', (req, res) => res.status(200).json({ message: 'Olá Mundo!' }));
 
 app.get('/teams', (req, res) => res.status(200).json({teams}));
 
+app.get('/teams/:id', (req, res) => {
+
+  const { id } = req.params;
+  const teamById = teams.find((team) => team.id === Number(id));
+
+  res.status(200).json({teamById});
+});
+
 app.post('/teams', (req, res) => {
   console.log({...req.body});
   const newTeam = { ...req.body };
